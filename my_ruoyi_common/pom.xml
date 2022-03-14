@@ -14,6 +14,7 @@
     <modules>
         <module>my_ruoyi_common_core</module>
         <module>my_ruoyi_common_redis</module>
+        <module>my_ruoyi_common_security</module>
     </modules>
 
     <properties>

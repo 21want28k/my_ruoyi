@@ -11,6 +11,9 @@
     <modules>
         <module>my_ruoyi_gateway</module>
         <module>my_ruoyi_common</module>
+        <module>my_ruoyi_auth</module>
+        <module>my_ruoyi_api</module>
+        <module>ruoyi-modules</module>
     </modules>
 
     <properties>
@@ -209,12 +212,12 @@
             <!--                <version>${ruoyi.version}</version>-->
             <!--            </dependency>-->
 
-            <!--            &lt;!&ndash; 安全模块 &ndash;&gt;-->
-            <!--            <dependency>-->
-            <!--                <groupId>com.ruoyi</groupId>-->
-            <!--                <artifactId>ruoyi-common-security</artifactId>-->
-            <!--                <version>${ruoyi.version}</version>-->
-            <!--            </dependency>-->
+            <!-- 安全模块 -->
+            <dependency>
+                <groupId>org.example</groupId>
+                <artifactId>my_ruoyi_common_security</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
 
             <!--            &lt;!&ndash; 权限范围 &ndash;&gt;-->
             <!--            <dependency>-->
@@ -244,12 +247,12 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
-            <!--            &lt;!&ndash; 系统接口 &ndash;&gt;-->
-            <!--            <dependency>-->
-            <!--                <groupId>com.ruoyi</groupId>-->
-            <!--                <artifactId>ruoyi-api-system</artifactId>-->
-            <!--                <version>${ruoyi.version}</version>-->
-            <!--            </dependency>-->
+            <!-- 系统接口 -->
+            <dependency>
+                <groupId>org.example</groupId>
+                <artifactId>ruoyi_api_system</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
