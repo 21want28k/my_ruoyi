@@ -49,7 +49,6 @@
         <hutool-all.version>5.7.22</hutool-all.version>
         <mybatis-plus.version>3.4.0</mybatis-plus.version>
 
-        <nacos_nginx>127.0.0.1:8881</nacos_nginx>
     </properties>
 
 
@@ -266,7 +265,22 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
+    <profiles>
+        <profile>
+            <id>mac</id>
+            <properties>
+                <activeProfile>mac</activeProfile>
+                <nacos_nginx>10.195.27.180:8881</nacos_nginx>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <activeProfile>dev</activeProfile>
+                <nacos_nginx>127.0.0.1:8881</nacos_nginx>
+            </properties>
+        </profile>
+    </profiles>
     <dependencies>
         <!-- bootstrap 启动器 -->
         <dependency>
