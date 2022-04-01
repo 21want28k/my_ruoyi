@@ -55,11 +55,16 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-<!--        &lt;!&ndash; RuoYi Common DataSource &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.ruoyi</groupId>-->
-<!--            <artifactId>ruoyi-common-datasource</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- RuoYi Common DataSource -->
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>ruoyi-common-datasource</artifactId>
+        </dependency>
 
 <!--        &lt;!&ndash; RuoYi Common DataScope &ndash;&gt;-->
 <!--        <dependency>-->
@@ -81,6 +86,11 @@
         <dependency>
             <groupId>org.example</groupId>
             <artifactId>my_ruoyi_common_security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
         </dependency>
     </dependencies>
 

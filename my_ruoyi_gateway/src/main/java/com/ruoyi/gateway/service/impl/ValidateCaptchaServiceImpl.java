@@ -4,6 +4,8 @@ import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.IdUtil;
 import com.google.code.kaptcha.Producer;
 import com.ruoyi.common.core.constant.Constants;
+import com.ruoyi.common.core.exception.CaptchaException;
+import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.redis.service.RedisService;
 import com.ruoyi.gateway.config.properties.CaptchaProperties;
@@ -81,4 +83,22 @@ public class ValidateCaptchaServiceImpl implements ValidateCaptchaService {
         ajaxResult.put(Constants.IMG, Base64.encode(os.toByteArray()));
         return ajaxResult;
     }
+
+    @Override
+    public void checkCaptcha(String code, String uuid) throws CaptchaException {
+        if (StringUtils.isEmpty(code)) {
+            throw new CaptchaException("验证码不能为空");
+        }
+        if (StringUtils.isEmpty(uuid)) {
+            throw new CaptchaException("验证码已失效");
+        }
+
+        String redisTokenVerifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
+        String captchaStr = redisService.getCacheObject(redisTokenVerifyKey);
+        redisService.deleteObject(captchaStr);
+        if (!code.equalsIgnoreCase(captchaStr)) {
+            throw new CaptchaException("验证码错误");
+        }
+    }
+
 }

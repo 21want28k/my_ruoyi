@@ -53,5 +53,10 @@
             <artifactId>my_ruoyi_common_security</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>ruoyi_api_system</artifactId>
+        </dependency>
+
     </dependencies>
 </project>

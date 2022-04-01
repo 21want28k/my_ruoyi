@@ -74,4 +74,14 @@ public class AjaxResult extends HashMap<String, Object> {
     public static AjaxResult error(int code, String message, Object data) {
         return new AjaxResult(code, message, data);
     }
+
+    /**
+     * 如果影响的行数>0的话，就返回成功，不然就返回失败。
+     *
+     * @param rows 库中被影响的行数
+     * @return
+     */
+    public static AjaxResult successIfAffectedRowsGreaterThan0(int rows) {
+        return rows > 0 ? success() : error();
+    }
 }

@@ -1,11 +1,8 @@
 package com.ruoyi.gateway;
 
-import com.ruoyi.common.security.annotation.EnableCustomConfig;
-import com.ruoyi.common.security.annotation.EnableRyFeignClients;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * 网关启动程序

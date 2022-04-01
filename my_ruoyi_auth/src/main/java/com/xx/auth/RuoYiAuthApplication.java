@@ -1,5 +1,6 @@
 package com.xx.auth;
 
+import com.ruoyi.common.security.annotation.EnableRyFeignClients;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -10,7 +11,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  *
  * @author ruoyi
  */
-@EnableFeignClients
+@EnableRyFeignClients
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class RuoYiAuthApplication {
     public static void main(String[] args) {

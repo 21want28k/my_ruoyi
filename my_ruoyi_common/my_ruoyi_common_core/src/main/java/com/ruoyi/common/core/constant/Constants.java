@@ -33,6 +33,8 @@ public class Constants {
      */
     public static final String UUID = "uuid";
 
+    public static final String CODE = "code";
+
     /**
      * IMG
      */
@@ -66,4 +68,28 @@ public class Constants {
      * 字典管理 cache key
      */
     public static final String SYS_DICT_KEY = "sys_dict:";
+
+
+    /**
+     * 登录成功
+     */
+    public static final String LOGIN_SUCCESS = "Success";
+    public static final String LOGIN_SUCESS_STATUS_CODE = "0";
+
+
+    /**
+     * 登录失败
+     */
+    public static final String LOGIN_FAIL = "Error";
+    public static final String LOGIN_FAIL_STATUS_CODE = "1";
+
+    /**
+     * 注销
+     */
+    public static final String LOGOUT = "Logout";
+
+    /**
+     * 注册
+     */
+    public static final String REGISTER = "Register";
 }

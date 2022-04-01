@@ -46,8 +46,7 @@ public class RedisService {
      *
      * @param key
      */
-    public boolean deleteObject(final String key)
-    {
+    public boolean deleteObject(final String key) {
         return redisTemplate.delete(key);
     }
 
@@ -57,8 +56,7 @@ public class RedisService {
      * @param pattern 字符串前缀
      * @return 对象列表
      */
-    public Collection<String> keys(final String pattern)
-    {
+    public Collection<String> keys(final String pattern) {
         return redisTemplate.keys(pattern);
     }
 
@@ -68,8 +66,17 @@ public class RedisService {
      * @param collection 多个对象
      * @return
      */
-    public long deleteObject(final Collection collection)
-    {
+    public long deleteObject(final Collection collection) {
         return redisTemplate.delete(collection);
+    }
+
+    /**
+     * 判断 key是否存在
+     *
+     * @param key 键
+     * @return true 存在 false不存在
+     */
+    public Boolean hasKey(String key) {
+        return redisTemplate.hasKey(key);
     }
 }

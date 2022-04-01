@@ -47,6 +47,7 @@
         <commons-collections.version>3.2.2</commons-collections.version>
         <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
         <hutool-all.version>5.7.22</hutool-all.version>
+        <mybatis-plus.version>3.4.0</mybatis-plus.version>
 
         <nacos_nginx>127.0.0.1:8881</nacos_nginx>
     </properties>
@@ -226,12 +227,12 @@
             <!--                <version>${ruoyi.version}</version>-->
             <!--            </dependency>-->
 
-            <!--            &lt;!&ndash; 多数据源 &ndash;&gt;-->
-            <!--            <dependency>-->
-            <!--                <groupId>com.ruoyi</groupId>-->
-            <!--                <artifactId>ruoyi-common-datasource</artifactId>-->
-            <!--                <version>${ruoyi.version}</version>-->
-            <!--            </dependency>-->
+            <!-- 多数据源 -->
+            <dependency>
+                <groupId>org.example</groupId>
+                <artifactId>ruoyi-common-datasource</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
 
             <!--            &lt;!&ndash; 日志记录 &ndash;&gt;-->
             <!--            <dependency>-->
@@ -257,6 +258,11 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool-all.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus</artifactId>
+                <version>${mybatis-plus.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -37,6 +37,11 @@ public class RequestResult<T> implements Serializable {
         return RequestResult.success(msg, null);
     }
 
+    public static <T> RequestResult<T> success(T data) {
+        return RequestResult.success(Constants.OPERATION_SUCCESS_STRING, data);
+    }
+
+
     public static <T> RequestResult<T> success(String msg, T data) {
         return new RequestResult<>(HttpStatus.SUCCESS, msg, data);
     }

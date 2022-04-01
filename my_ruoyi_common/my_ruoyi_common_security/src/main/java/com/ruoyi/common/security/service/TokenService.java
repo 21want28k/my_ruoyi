@@ -39,6 +39,7 @@ public class TokenService
 
     private final static Long MILLIS_MINUTE_TEN = CacheConstants.REFRESH_TIME * MILLIS_MINUTE;
 
+
     /**
      * 创建令牌
      */
@@ -150,7 +151,7 @@ public class TokenService
     }
 
     /**
-     * 刷新令牌有效期
+     * 刷新令牌有效期并且存储进redis中，默认时间是720分钟
      *
      * @param loginUser 登录信息
      */
