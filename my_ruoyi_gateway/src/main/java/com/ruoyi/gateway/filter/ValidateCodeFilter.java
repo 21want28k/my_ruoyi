@@ -41,6 +41,7 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object> {
 
                 ServerHttpRequest request = exchange.getRequest();
                 String uriPath = request.getURI().getPath();
+                // 验证白名单，不在名单上的不验证
                 if (!StringUtils.containsAnyIgnoreCase(uriPath, VALIDATE_URL) || !captchaProperties.getEnabled()) {
                     return chain.filter(exchange);
                 }

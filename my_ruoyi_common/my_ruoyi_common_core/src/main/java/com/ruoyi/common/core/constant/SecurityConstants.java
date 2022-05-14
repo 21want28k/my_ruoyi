@@ -2,11 +2,10 @@ package com.ruoyi.common.core.constant;
 
 /**
  * 权限相关通用常量
- * 
+ *
  * @author ruoyi
  */
-public class SecurityConstants
-{
+public class SecurityConstants {
     /**
      * 用户ID字段
      */
@@ -41,4 +40,9 @@ public class SecurityConstants
      * 登录用户
      */
     public static final String LOGIN_USER = "login_user";
+
+    /**
+     * 管理员字符标识
+     */
+    public static final String ADMIN = "admin";
 }

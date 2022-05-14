@@ -14,6 +14,7 @@
         <module>my_ruoyi_auth</module>
         <module>my_ruoyi_api</module>
         <module>ruoyi-modules</module>
+        <module>myLearnOfSpringCloud</module>
     </modules>
 
     <properties>

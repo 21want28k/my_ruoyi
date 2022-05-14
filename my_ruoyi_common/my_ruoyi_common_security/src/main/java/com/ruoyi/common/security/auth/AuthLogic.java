@@ -12,6 +12,8 @@ import com.ruoyi.common.security.annotation.RequiresRoles;
 import com.ruoyi.common.security.service.TokenService;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.model.LoginUser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.PatternMatchUtils;
 
 import java.util.Collection;
@@ -32,6 +34,7 @@ public class AuthLogic
     private static final String SUPER_ADMIN = "admin";
 
     public TokenService tokenService = SpringUtils.getBean(TokenService.class);
+
 
     /**
      * 会话注销

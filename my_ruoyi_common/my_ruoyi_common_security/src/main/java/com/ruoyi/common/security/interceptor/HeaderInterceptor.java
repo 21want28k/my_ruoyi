@@ -3,10 +3,13 @@ package com.ruoyi.common.security.interceptor;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.context.SecurityContextHolder;
 import com.ruoyi.common.core.utils.ServletUtils;
+import com.ruoyi.common.core.utils.SpringUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.security.auth.AuthUtil;
+import com.ruoyi.common.security.service.TokenService;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.model.LoginUser;
+import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 
@@ -19,26 +22,22 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ruoyi
  */
-public class HeaderInterceptor implements AsyncHandlerInterceptor
-{
+public class HeaderInterceptor implements AsyncHandlerInterceptor {
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception
-    {
-        if (!(handler instanceof HandlerMethod))
-        {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (!(handler instanceof HandlerMethod)) {
             return true;
         }
 
         SecurityContextHolder.setUserId(ServletUtils.getHeader(request, SecurityConstants.DETAILS_USER_ID));
         SecurityContextHolder.setUserName(ServletUtils.getHeader(request, SecurityConstants.DETAILS_USERNAME));
         SecurityContextHolder.setUserKey(ServletUtils.getHeader(request, SecurityConstants.USER_KEY));
-
+        
         String token = SecurityUtils.getToken();
-        if (StringUtils.isNotEmpty(token))
-        {
+        if (StringUtils.isNotEmpty(token)) {
+            // redis中存储用户登录状态
             LoginUser loginUser = AuthUtil.getLoginUser(token);
-            if (StringUtils.isNotNull(loginUser))
-            {
+            if (StringUtils.isNotNull(loginUser)) {
                 AuthUtil.verifyLoginUserExpire(loginUser);
                 SecurityContextHolder.set(SecurityConstants.LOGIN_USER, loginUser);
             }
@@ -48,8 +47,8 @@ public class HeaderInterceptor implements AsyncHandlerInterceptor
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-            throws Exception
-    {
+            throws Exception {
+        // 用了之后一定要remove释放内存
         SecurityContextHolder.remove();
     }
 }

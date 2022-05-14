@@ -51,7 +51,7 @@ public class AuthUtil
     }
 
     /**
-     * 验证当前用户有效期
+     * 验证当前用户有效期,并且自动刷新用户的token时间
      */
     public static void verifyLoginUserExpire(LoginUser loginUser)
     {

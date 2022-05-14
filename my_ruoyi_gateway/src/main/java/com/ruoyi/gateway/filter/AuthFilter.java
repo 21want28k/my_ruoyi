@@ -1,9 +1,6 @@
 package com.ruoyi.gateway.filter;
 
-import com.ruoyi.common.core.constant.Constants;
-import com.ruoyi.common.core.constant.HttpStatus;
-import com.ruoyi.common.core.constant.SecurityConstants;
-import com.ruoyi.common.core.constant.TokenConstants;
+import com.ruoyi.common.core.constant.*;
 import com.ruoyi.common.core.utils.JwtUtils;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -38,12 +35,14 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        // validate white list
         List<String> whiteList = ignoreWhiteProperties.getWhites();
         ServerHttpRequest request = exchange.getRequest();
         String path = request.getURI().getPath();
         if (StringUtils.matches(path, whiteList)) {
             return chain.filter(exchange);
         }
+
         String token = this.getTokenFromRequest(request);
         Claims claims = JwtUtils.parseToken(token);
         if (claims.isEmpty()) {
@@ -52,7 +51,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
         String redisTokenKey = JwtUtils.getUserKey(claims);
 
         // redis中的key是UUID:loginUser对象的组合, 是否登录用redis去维护一个key
-        Boolean hasKey = redisService.hasKey(redisTokenKey);
+        Boolean hasKey = redisService.hasKey(this.getTokenKey(redisTokenKey));
         if (!hasKey) {
             return unauthorizedResponse("登录状态已过期", exchange);
         }
@@ -69,6 +68,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
         addHeader(mutate, SecurityConstants.DETAILS_USERNAME, userName);
         addHeader(mutate, SecurityConstants.USER_KEY, redisTokenKey);
 
+        // permission，网关转发不算是内部的
         removeHeader(mutate, SecurityConstants.FROM_SOURCE);
         return chain.filter(exchange.mutate().request(mutate.build()).build());
     }
@@ -112,5 +112,12 @@ public class AuthFilter implements GlobalFilter, Ordered {
             token = token.replaceFirst(TokenConstants.PREFIX, StringUtils.EMPTY);
         }
         return token;
+    }
+
+    /**
+     * 拼接redis中代表状态的token key: login_tokens:${token}
+     */
+    private String getTokenKey(String token) {
+        return CacheConstants.LOGIN_TOKEN_KEY + token;
     }
 }
