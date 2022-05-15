@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysRoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.ruoyi.system.api.domain.SysRole">
+        <id property="roleId" column="role_id" jdbcType="BIGINT"/>
+        <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+        <result property="roleKey" column="role_key" jdbcType="VARCHAR"/>
+        <result property="roleSort" column="role_sort" jdbcType="INTEGER"/>
+        <result property="dataScope" column="data_scope" jdbcType="CHAR"/>
+        <result property="menuCheckStrictly" column="menu_check_strictly" jdbcType="TINYINT"/>
+        <result property="deptCheckStrictly" column="dept_check_strictly" jdbcType="TINYINT"/>
+        <result property="status" column="status" jdbcType="CHAR"/>
+        <result property="delFlag" column="del_flag" jdbcType="CHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List_Include_BaseEntity">
+        role_id,role_name,role_key,
+        role_sort,data_scope,menu_check_strictly,
+        dept_check_strictly,status,del_flag,
+        create_by,create_time,update_by,
+        update_time,remark
+    </sql>
+
+    <sql id="Base_Column_List">
+        r.role_id, r.role_name, r.role_key,
+        r.role_sort, r.data_scope, r.menu_check_strictly,
+        r.dept_check_strictly, r.status, r.del_flag
+    </sql>
+
+    <select id="selectAllByUserId" resultMap="BaseResultMap">
+        select distinct r.role_key,
+        <include refid="Base_Column_List"/>
+        from sys_user_role ur left join sys_role r on r.role_id = ur.role_id
+        where ur.user_id = #{userId} and r.status = '0' and r.del_flag = '0';
+    </select>
+    <select id="selectAllByUserId2" resultType="java.lang.String">
+        select r.role_key
+        from sys_user_role ur
+                 left join sys_role r on r.role_id = ur.role_id
+        where ur.user_id = #{userId}
+          and r.status = '0'
+          and r.del_flag = '0';
+    </select>
+</mapper>
