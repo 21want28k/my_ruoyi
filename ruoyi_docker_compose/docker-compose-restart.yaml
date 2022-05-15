@@ -1,0 +1,194 @@
+version: "3"
+services:
+  mysql:
+    container_name: royi-mysql
+    # 最新的mysql8版本
+    image: mysql:5.7
+    environment:
+      # mysql root用户密码
+      MYSQL_ROOT_PASSWORD: root
+      TZ: Asia/Shanghai
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+      --max_allowed_packet=128M;
+    volumes:
+      # mysql的数据文件
+      - ./mysql/data:/var/lib/mysql
+      # mysql配置文件
+      - ./mysql/config:/etc/mysql/conf.d
+    ports:
+      - "3306:3306"
+    networks:
+      ruoyinet:
+        ipv4_address: 172.1.0.8
+    restart: always
+  nacos1:
+    hostname: nacos1
+    container_name: royi-nacos1
+    image: nacos/nacos-server:latest
+    volumes:
+      # 需要添加mysql8的插件
+      #- ./nacos/plugins/mysql/:/home/nacos/plugins/mysql/
+      # 把日志文件映射出来
+      - ./nacos/cluster-logs/nacos1:/home/nacos/logs
+      # 把配置文件映射出来
+      - ./nacos/init.d/custom.properties:/home/nacos/init.d/custom.properties
+    
+    environment:                       # 设置环境变量,相当于docker run命令中的-e
+      - JVM_XMS=512m
+      - JVM_XMX=512m
+      - JVM_XMN=128m
+      - TZ=Asia/Shanghai
+      #- MODE=standalone
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+      - "9555:9555"
+    env_file:
+        # 集群配置文件
+      - ./nacos/env/nacos-hostname.env
+    restart: always
+    depends_on:
+      - mysql
+    networks:
+      ruoyinet:
+        ipv4_address: 172.1.0.7
+  nacos2:
+    hostname: nacos2
+    image: nacos/nacos-server:latest
+    container_name: royi-nacos2
+    volumes:
+      #- ./nacos/plugins/mysql/:/home/nacos/plugins/mysql/
+      - ./nacos/cluster-logs/nacos2:/home/nacos/logs
+      - ./nacos/init.d/custom.properties:/home/nacos/init.d/custom.properties
+    environment:                        # 设置环境变量,相当于docker run命令中的-e
+      - JVM_XMS=512m
+      - JVM_XMX=512m
+      - JVM_XMN=128m
+      - TZ=Asia/Shanghai
+    ports:
+      - "8849:8848"
+    env_file:
+      - ./nacos/env/nacos-hostname.env
+    restart: always
+    depends_on:
+      - mysql
+    networks:
+      ruoyinet:
+        ipv4_address: 172.1.0.6
+  nacos3:
+    hostname: nacos3
+    image: nacos/nacos-server:latest
+    container_name: royi-nacos3
+    volumes:
+      #- ./nacos/plugins/mysql/:/home/nacos/plugins/mysql/
+      - ./nacos/cluster-logs/nacos3:/home/nacos/logs
+      - ./nacos/init.d/custom.properties:/home/nacos/init.d/custom.properties
+    environment:                      # 设置环境变量,相当于docker run命令中的-e
+      - JVM_XMS=512m
+      - JVM_XMX=512m
+      - JVM_XMN=128m
+      - TZ=Asia/Shanghai
+    ports:
+      - "8850:8848"
+    env_file:
+      - ./nacos/env/nacos-hostname.env
+    restart: always
+    depends_on:
+      - mysql
+    networks:
+      ruoyinet:
+        ipv4_address: 172.1.0.5
+  nginx:
+    restart: always
+    image: nginx:latest
+    container_name: royi-nginx
+    ports:
+      - "8881:8881"
+      - "9881:9881"
+      - "443:443"
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/data/:/usr/share/nginx/html/
+      - ./nginx/log/:/var/log/nginx/
+    networks:
+      ruoyinet:
+        ipv4_address: 172.1.0.4
+    depends_on:
+      - nacos1
+      - nacos2
+      - nacos3
+  redis:
+     image: redis:latest
+     restart: always
+     container_name: ruoyi-redis
+     ports:
+       - "6379:6379"
+     environment:
+       TZ: Asia/Shanghai
+     volumes:
+       - ./redis/redis.conf:/etc/redis/redis.conf 
+       - ./redis/data:/data      
+     command: redis-server /etc/redis/redis.conf 
+     privileged: true
+     networks:
+       ruoyinet:
+         ipv4_address: 172.1.0.3
+  seata-server-1.4.2:
+    image: seataio/seata-server:1.4.2
+    container_name: ruoyi-seata
+    hostname: seata-server
+    ports:
+      - "8091:8091"
+    environment:
+      # 指定seata服务启动端口
+      - SEATA_PORT=8091
+      # 注册到nacos上的ip。客户端将通过该ip访问seata服务。
+      # 注意公网ip和内网ip的差异。
+      - SEATA_IP=127.0.0.1
+      - SEATA_CONFIG_NAME=file:/root/seata-config/registry
+      - TZ=Asia/Shanghai
+    volumes:
+    # 因为registry.conf中是nacos配置中心，只需要把registry.conf放到./seata-server/config文件夹中
+      - "./seata/config:/root/seata-config"
+      # sh nacos-config.sh -h localhost -p 8848 -g SEATA_GROUP(你的group) -t 8f86ea8c-2a39-4728-bade-4af9ebece539(命名空间的ID) -u nacos(登录账号) -w naco(登录密码)
+#    network_mode: "host"
+    depends_on:
+      - nacos1
+      - nacos2
+      - nacos3
+    restart: always
+    networks:
+      ruoyinet:
+        ipv4_address: 172.1.0.2
+        
+        
+  sentinel-dashboard-1.7.2:
+    image: sentinel-dashboard-1.7.2
+    container_name: ruoyi-sentinel-dashboard
+    environment:
+      JAVA_OPTS: "-Dserver.port=8080 -Dcsp.sentinel.dashboard.server=localhost:8080 -Dproject.name=sentinel-dashboard -Djava.security.egd=file:/dev/./urandom -Dcsp.sentinel.api.port=8719"
+      TZ: Asia/Shanghai
+    ports: #避免出现端口映射错误，建议采用字符串格式 8080端口为Dockerfile中EXPOSE端口
+      - "58080:8080"
+      - "8719:8719"
+    volumes:
+      - ./sentinel/logs:/root/logs
+    networks:
+      ruoyinet:
+        ipv4_address: 172.1.0.9
+    restart: always
+    
+# 为了防止重新构建服务的时候，地址变来变去影响到后面的配置文件，我自己设一个网段    
+networks:
+   ruoyinet:
+      ipam:
+         config:
+         - subnet: 172.1.0.0/16
+           gateway: 172.1.0.1
