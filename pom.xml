@@ -271,7 +271,8 @@
             <id>mac</id>
             <properties>
                 <activeProfile>mac</activeProfile>
-                <nacos_nginx>10.195.27.180:8881</nacos_nginx>
+                <nacos_nginx>121.248.201.36:8881</nacos_nginx>
+                <baseIp>121.248.201.36</baseIp>
             </properties>
         </profile>
         <profile>
@@ -279,6 +280,7 @@
             <properties>
                 <activeProfile>dev</activeProfile>
                 <nacos_nginx>127.0.0.1:8881</nacos_nginx>
+                <baseIp>127.0.0.1</baseIp>
             </properties>
         </profile>
     </profiles>

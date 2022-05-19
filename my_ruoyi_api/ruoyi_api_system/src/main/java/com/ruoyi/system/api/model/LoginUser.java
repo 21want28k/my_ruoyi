@@ -45,7 +45,7 @@ public class LoginUser implements Serializable {
     private String ipaddr;
 
     /**
-     * 权限列表
+     * 权限列表,注意这里面是权限字符串，不是权限名称
      */
     private Set<String> permissions;
 
