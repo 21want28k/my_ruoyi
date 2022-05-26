@@ -12,10 +12,13 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface SysUserMapper {
-
-
     SysUser selectByUserName(@Param("userName") String userName);
-    
+
+    SysUser selectByPhonenumber(@Param("phoneNumber") String phoneNumber);
+
+    SysUser selectOneByEmail(@Param("email") String email);
+
+    int updateUser(SysUser user);
 }
 
 

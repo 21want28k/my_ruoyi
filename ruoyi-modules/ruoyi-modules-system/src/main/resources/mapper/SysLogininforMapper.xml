@@ -22,7 +22,7 @@
         (user_name, status,
          ipaddr, msg, access_time)
         values (#{userName,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
-                #{ipaddr,jdbcType=VARCHAR}, #{msg,jdbcType=VARCHAR}, #{accessTime,jdbcType=TIMESTAMP})
+                #{ipaddr,jdbcType=VARCHAR}, #{msg,jdbcType=VARCHAR}, sysdate())
 
     </insert>
 </mapper>

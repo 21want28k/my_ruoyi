@@ -33,21 +33,22 @@ public class SysUserController extends BaseController {
 
     @GetMapping("/info/{username}")
     private RequestResult<LoginUser> getUserInfo(@PathVariable("username") String username) {
-        SysUser user = userService.getUserByUsername(username);
-        if (user == null) {
-            return RequestResult.fail("用户名或密码错误");
-        }
-        LoginUser loginUser = new LoginUser();
-        loginUser.setSysUser(user);
-
-        //获取相关的权限
-        Long userId = user.getUserId();
-        Set<String> roles = permissionService.selectRolesByUserId(userId);
-        Set<String> permissions = permissionService.selectMenuPermissionsByUserId(userId);
-        loginUser.setRoles(roles);
-        loginUser.setPermissions(permissions);
-
-        return RequestResult.success(loginUser);
+//        SysUser user = userService.getUserByUsername(username);
+//        if (user == null) {
+//            return RequestResult.fail("用户名或密码错误");
+//        }
+//        LoginUser loginUser = new LoginUser();
+//        loginUser.setSysUser(user);
+//
+//        //获取相关的权限
+//        Long userId = user.getUserId();
+//        Set<String> roles = permissionService.selectRolesByUserId(userId);
+//        Set<String> permissions = permissionService.selectMenuPermissionsByUserId(userId);
+//        loginUser.setRoles(roles);
+//        loginUser.setPermissions(permissions);
+//
+//        return RequestResult.success(loginUser);
+        return permissionService.setUserInformation(username);
     }
 
     /**

@@ -234,12 +234,12 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
-            <!--            &lt;!&ndash; 日志记录 &ndash;&gt;-->
-            <!--            <dependency>-->
-            <!--                <groupId>com.ruoyi</groupId>-->
-            <!--                <artifactId>ruoyi-common-log</artifactId>-->
-            <!--                <version>${ruoyi.version}</version>-->
-            <!--            </dependency>-->
+            <!-- 日志记录 -->
+            <dependency>
+                <groupId>org.example</groupId>
+                <artifactId>my_ruoyi_common_log</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
 
             <!-- 缓存服务 -->
             <dependency>
@@ -303,6 +303,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>

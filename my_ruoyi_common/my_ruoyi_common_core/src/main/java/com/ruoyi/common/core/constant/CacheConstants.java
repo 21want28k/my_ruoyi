@@ -2,15 +2,14 @@ package com.ruoyi.common.core.constant;
 
 /**
  * Redis中的Token缓存的key 常量
- * 
+ *
  * @author ruoyi
  */
-public class CacheConstants
-{
+public class CacheConstants {
     /**
-     * Token缓存有效期，默认720（分钟）
+     * Token缓存有效期，默认720（分钟）/一个月
      */
-    public final static long EXPIRATION = 720;
+    public final static long EXPIRATION = 60 * 24 * 30;
 
     /**
      * Token缓存刷新时间，默认120（分钟）

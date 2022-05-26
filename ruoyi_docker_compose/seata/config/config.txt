@@ -1,4 +1,4 @@
-service.vgroupMapping.ruoyi-system-group=default
+com.ruoyi.common.log.service.vgroupMapping.ruoyi-system-group=default
 store.mode=db
 store.db.datasource=druid
 store.db.dbType=mysql

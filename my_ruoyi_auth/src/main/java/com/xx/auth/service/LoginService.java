@@ -6,4 +6,6 @@ public interface LoginService {
     void recordLogininfor(String username, String status, String message);
 
     LoginUser login(String username, String password);
+
+    public void logout(String loginName);
 }

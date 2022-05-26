@@ -109,4 +109,9 @@ public class LoginServiceImpl implements LoginService {
         this.recordLogininfor(username, Constants.LOGIN_SUCCESS, "登录成功");
         return userInfo;
     }
+
+    public void logout(String loginName)
+    {
+        recordLogininfor(loginName, Constants.LOGOUT, "退出成功");
+    }
 }

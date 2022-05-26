@@ -32,6 +32,7 @@ spring:
       transport:
         # 控制台地址
         dashboard: 127.0.0.1:58080
+        clientIp: 172.29.112.1
       # nacos配置持久化
       datasource:
         ds1:
